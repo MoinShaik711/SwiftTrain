@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Book Tickets - {{ route.source }} → {{ route.destination }}</h2>
+<form method="post" action="/confirm_booking">
+  <input type="hidden" name="route_id" value="{{ route.id }}">
+  <div class="mb-3">
+    <label>Name:</label>
+    <input type="text" name="contact_name" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Email:</label>
+    <input type="email" name="email" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Mobile:</label>
+    <input type="text" name="mobile" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Number of Passengers:</label>
+    <input type="number" name="num_passengers" class="form-control" id="numPassengers" value="1" min="1" required>
+  </div>
+  <div id="passengerFields"></div>
+  <div class="mb-3">
+    <label>Total Price:</label>
+    <input type="text" name="total_price" id="totalPrice" class="form-control" readonly>
+  </div>
+  <button type="submit" class="btn btn-success">Confirm Booking</button>
+</form>
+
+<script>
+const pricePerSeat = Number("{{ route.price }}");
+
+const numInput = document.getElementById('numPassengers');
+const fieldsDiv = document.getElementById('passengerFields');
+const totalInput = document.getElementById('totalPrice');
+
+function renderPassengerFields(count) {
+  fieldsDiv.innerHTML = '';
+  for (let i = 1; i <= count; i++) {
+    fieldsDiv.innerHTML += `
+      <div class="card p-3 my-2">
+        <h5>Passenger ${i}</h5>
+        <input name="pname${i}" class="form-control mb-2" placeholder="Name" required>
+        <input name="page${i}" class="form-control mb-2" placeholder="Age" required>
+        <select name="pgender${i}" class="form-control mb-2">
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+      </div>`;
+  }
+  totalInput.value = count * pricePerSeat;
+}
+
+numInput.addEventListener('input', () => {
+  renderPassengerFields(parseInt(numInput.value));
+});
+
+window.onload = () => {
+  renderPassengerFields(parseInt(numInput.value));
+};
+</script>
+{% endblock %}

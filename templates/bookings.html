@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>All Bookings</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Contact Name</th>
+      <th>Route</th>
+      <th>Date</th>
+      <th>Fare</th>
+      <th>Ticket</th>  <!-- New column -->
+    </tr>
+  </thead>
+  <tbody>
+    {% for booking in bookings %}
+      <tr>
+        <td>T{{ '%02d' % booking[0] }}</td>
+        <td>{{ booking[1] }}</td>
+        <td>
+          {% for r in routes %}
+            {% if r.id == booking[4] %}
+              {{ r.source }} → {{ r.destination }}
+            {% endif %}
+          {% endfor %}
+        </td>
+        <td>{{ booking[7] }}</td>
+        <td>₹{{ booking[6] }}</td>
+        <td>
+          <a href="{{ url_for('download_ticket', booking_id='T' ~ '%02d' % booking[0]) }}"
+             class="btn btn-sm btn-outline-primary">
+            📥 Download
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

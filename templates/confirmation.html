@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-success">Booking Confirmed!</h2>
+
+<p><strong>Booking ID:</strong> T{{ '%02d' % booking[0] }}</p>
+<p><strong>Name:</strong> {{ booking[1] }}</p>
+<p><strong>Email:</strong> {{ booking[2] }}</p>
+<p><strong>Mobile:</strong> {{ booking[3] }}</p>
+<p><strong>Route:</strong> {{ route.source }} → {{ route.destination }}</p>
+<p><strong>Total Fare:</strong> ₹{{ booking[6] }}</p>
+
+<!-- 🖨️ Download Ticket Button -->
+<div class="mt-3 mb-4">
+  <a href="{{ url_for('download_ticket', booking_id='T' ~ '%02d' % booking[0]) }}" class="btn btn-outline-primary">
+    🖨️ Download Ticket (PDF)
+  </a>
+</div>
+
+<hr>
+
+<h4>Passenger List:</h4>
+<ul class="list-group">
+  {% for passenger in passengers %}
+    <li class="list-group-item">
+      <strong>Name:</strong> {{ passenger.name or passenger['name'] }},
+      <strong>Age:</strong> {{ passenger.age or passenger['age'] }},
+      <strong>Gender:</strong> {{ passenger.gender or passenger['gender'] }}
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

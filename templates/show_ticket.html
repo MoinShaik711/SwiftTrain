@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h2 class="text-primary">View Your Ticket</h2>
+  <form method="post" class="mb-4">
+    <label for="search">Enter Booking ID or Name:</label>
+    <input type="text" name="search" id="search" class="form-control" required>
+    <button type="submit" class="btn btn-success mt-2">Show Ticket</button>
+  </form>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+</div>
+{% endblock %}
