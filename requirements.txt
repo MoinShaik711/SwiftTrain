@@ -1,3 +1,4 @@
 Flask==2.3.3
+Flask-Cors==3.0.10
 reportlab==4.1.0
-
+gumicorn==21.2.0
